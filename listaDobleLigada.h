@@ -30,6 +30,11 @@ public:
 
     void pushBack(const I&);
 
+    I* front();
+    I* back();
+    void print();
+    void printReverse();
+
     size_t size();
     bool empty();
 
@@ -83,6 +88,46 @@ void ListaDobleLigada<I>::pushBack(const I &dato)
     }
 
     cont++;
+}
+
+template<class I>
+I* ListaDobleLigada<I>::front()
+{
+    if(empty())
+        return nullptr;
+    else
+        return &head->dato;
+}
+
+template<class I>
+I* ListaDobleLigada<I>::back()
+{
+    if(empty())
+        return nullptr;
+    else
+        return &tail->dato;
+}
+
+template<class I>
+void ListaDobleLigada<I>::print()
+{
+    Nodo *temp = head;
+    while(temp != nullptr)
+    {
+        cout << temp->dato << endl;
+        temp = temp->sig;
+    }
+}
+
+template<class I>
+void ListaDobleLigada<I>::printReverse()
+{
+    Nodo *temp = tail;
+    while(temp != nullptr)
+    {
+        cout << temp->dato << endl;
+        temp = temp->ant;
+    }
 }
 
 template<class I>
