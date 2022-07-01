@@ -26,15 +26,16 @@ public:
     ListaDobleLigada();
     ~ListaDobleLigada();
 
-    void pushFront(const I&);
-
-    void pushBack(const I&);
-
     I* front();
+    void pushFront(const I&);
+    void popFront();
+
     I* back();
+    void pushBack(const I&);
+    void popBack();
+
     void print();
     void printReverse();
-
     size_t size();
     bool empty();
 
@@ -52,6 +53,15 @@ ListaDobleLigada<I>::ListaDobleLigada()
     head = nullptr;
     tail = nullptr;
     cont = 0;
+}
+
+template<class I>
+I* ListaDobleLigada<I>::front()
+{
+    if(empty())
+        return nullptr;
+    else
+        return &head->dato;
 }
 
 template<class I>
@@ -73,6 +83,40 @@ void ListaDobleLigada<I>::pushFront(const I &dato)
 }
 
 template<class I>
+void ListaDobleLigada<I>::popFront()
+{
+    if(empty())
+    {
+        cout << "Lista vacia" << endl << "No se puede eliminar al inicio" << endl;
+        return;
+    }
+    else if(cont == 1)
+    {
+        delete head;
+        head = nullptr;
+        tail = nullptr;
+        cont--;
+    }
+    else
+    {
+        Nodo *temp = head->sig;
+        temp->ant = nullptr;
+        delete head;
+        head = temp;
+        cont--;
+    }
+}
+
+template<class I>
+I* ListaDobleLigada<I>::back()
+{
+    if(empty())
+        return nullptr;
+    else
+        return &tail->dato;
+}
+
+template<class I>
 void ListaDobleLigada<I>::pushBack(const I &dato)
 {
     Nodo *nodo = new Nodo(dato, nullptr, tail);
@@ -91,21 +135,29 @@ void ListaDobleLigada<I>::pushBack(const I &dato)
 }
 
 template<class I>
-I* ListaDobleLigada<I>::front()
+void ListaDobleLigada<I>::popBack()
 {
     if(empty())
-        return nullptr;
+    {
+        cout << "Lista vacia" << endl << "No se puede eliminar al final" << endl;
+        return;
+    }
+    else if(cont == 1)
+    {
+        delete tail;
+        head = nullptr;
+        tail = nullptr;
+        cont--;
+    }
     else
-        return &head->dato;
-}
+    {
+        Nodo *temp = tail->ant;
+        temp->sig = nullptr;
+        delete tail;
+        tail = temp;
 
-template<class I>
-I* ListaDobleLigada<I>::back()
-{
-    if(empty())
-        return nullptr;
-    else
-        return &tail->dato;
+        cont--;
+    }
 }
 
 template<class I>
@@ -145,6 +197,10 @@ bool ListaDobleLigada<I>::empty()
 template<class I>
 ListaDobleLigada<I>::~ListaDobleLigada()
 {
+    while(!empty())
+    {
+        popFront();
+    }
 }
 
 #endif//LISTA_DOBLE_LIGADA_H
