@@ -34,6 +34,9 @@ public:
     void pushBack(const I&);
     void popBack();
 
+    void insert(const I&, size_t);
+    void erase(size_t);
+
     void print();
     void printReverse();
     size_t size();
@@ -44,6 +47,22 @@ public:
         pushBack(dato);
 
         return *this;
+    }
+
+    I* operator[](size_t i)
+    {
+        size_t p = 0;
+        Nodo *temp = head;
+
+        while(temp != nullptr)
+        {
+            if(i == p)
+                return &temp->dato;
+            temp = temp->sig;
+            p++;
+        }
+
+        return nullptr;
     }
 };
 
@@ -157,6 +176,73 @@ void ListaDobleLigada<I>::popBack()
         tail = temp;
 
         cont--;
+    }
+}
+
+template<class I>
+void ListaDobleLigada<I>::insert(const I &dato, size_t i)
+{
+    if(i > cont)
+        cout << "Posicion " << i << " no valida" << endl;
+    else if(i == 0)
+        pushFront(dato);
+    else if(i == cont)
+        pushBack(dato);
+    else
+    {
+        Nodo *temp = head->sig;
+        size_t p = 1;
+
+        while(temp != nullptr)
+        {
+            if(p == i)
+            {
+                Nodo *nodo = new Nodo(dato);
+                nodo->sig = temp;
+                nodo->ant = temp->ant;
+
+                temp->ant->sig = nodo;
+                nodo->sig->ant = nodo;
+
+                cont++;
+                break;
+            }
+
+            temp = temp->sig;
+            p++;
+        }
+    }
+}
+
+template<class I>
+void ListaDobleLigada<I>::erase(size_t i)
+{
+    if(i >= cont)
+        cout << "Posicion " << i << " no valida" << endl;
+    else if(i == 0)
+        popFront();
+    else if(i == cont-1)
+        popBack();
+    else
+    {
+        Nodo *temp = head->sig;
+        size_t p = 1;
+
+        while(temp != nullptr)
+        {
+            if(p == i)
+            {
+                temp->ant->sig = temp->sig;
+                temp->sig->ant = temp->ant;
+
+                delete temp;
+                cont--;
+                break;
+            }
+
+            temp = temp->sig;
+            p++;
+        }
     }
 }
 

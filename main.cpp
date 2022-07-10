@@ -16,18 +16,21 @@ int main()
     enteros.pushBack(6);
 
     enteros << 7 << 8 << 9;
-
+    enteros.print();
     cout << "Elementos: " << enteros.size() << endl;
-    enteros.print();
 
-    enteros.popFront();
-    enteros.popBack();
-
-    cout << endl << "Elementos: " << enteros.size() << endl;
+    enteros.insert(16, 4);
+    enteros.insert(24, 8);
     enteros.print();
+    cout << "Elementos: " << enteros.size() << endl;
+
+    enteros.erase(10);
+    enteros.erase(7);
+    enteros.print();
+    cout << "Elementos: " << enteros.size() << endl;
 
     enteros.~ListaDobleLigada();
-    cout << endl << "Elementos: " << enteros.size() << endl;
+    cout << "Elementos: " << enteros.size() << endl;
 
     return 0;
 }
